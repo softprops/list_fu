@@ -11,7 +11,7 @@ A common pattern I always have when listing models in my views is as follows.
     <th>column one</th>
     <th>column two</th>
   </td>
-  <% for model in models %>
+  <% for model in @models %>
     <td>
       <tr>column one</tr>
       <tr>column two</tr>
@@ -27,7 +27,7 @@ to
     <li>
     <%= render :partial=> "model" %>
     </li>
-  <%- -%>
+  <%- end -%>
   </ul>
   
 where my model has its own default partial _model.html.erb.
