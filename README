@@ -24,7 +24,9 @@ to
 
   <ul>
   <%- @models.each.do |model| -%>
+    <li>
     <%= render :partial=> "model" %>
+    </li>
   <%- -%>
   </ul>
   
