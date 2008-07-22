@@ -1,0 +1,103 @@
+ListFu
+======
+
+A common pattern I always have when listing models in my views is as follows.
+
+1. Have rails generate my model's scaffold
+2. Replace Rails generated html table in index.html.erb going from
+
+ <table>
+  <td>
+    <th>column one</th>
+    <th>column two</th>
+  </td>
+  <% for model in models %>
+    <td>
+      <tr>column one</tr>
+      <tr>column two</tr>
+    <td>
+    ... actions ...
+  <% end %>
+  </table
+
+to
+
+  <ul>
+  <%- @models.each.do |model| -%>
+    <%= render :partial=> "model" %>
+  <%- -%>
+  </ul>
+  
+where my model has its own default partial _model.html.erb.
+
+This is ruby. I can do better than that.
+
+Examples
+=======
+
+ListFu adds list markup behavior to your views through the method list_of.
+
+A simple unordered list.
+
+index.html.erb
+
+ <%= list_of @models %> 
+ 
+generates
+
+<ul id="mode_list">
+  <li id="1_model">
+    <%= render :partial =>"model", :object=> model %>
+  </li>
+  <li id="2_model">
+    <%= render :partial =>"model", :object=> model %>
+  </li>
+</ul>
+ 
+ 
+To further customize list_of it takes two hashes. The first being targeted at the html list element
+and the second being targeted at each html list item. These options are basically what you get in any rails 
+view helpers except for two items. The list hash uses the symbol :ordered to indicate that the list should be an unordered
+or ordered list. This defaults to false. The list item hash uses the symbol :partial to indicate which partial to render. This defaults to the name 
+the model's class.
+
+index.html.erb
+ 
+ <%= list_of @models, {:ordered=>true, :class=>"my_model_list_class", :id=>"my_model_list_id"}, {:partial=>"my_partial"} %>
+
+generates
+
+<ol class="my_model_list_class" id="my_model_list_id">
+  <li id="1_model">
+    <%= render :partial =>"my_partial", :object=> model %>
+  </li>
+  <li id="2_model">
+    <%= render :partial =>"my_partial", :object=> model %>
+  </li>
+</ol>
+
+Blocks 
+======
+
+If you don't like using partials you can use the block form of list_of which takes the same parameters as above plus a block
+that gets passed each model at it iterates over them.
+
+index.html.erb
+ 
+ <% list_of @models do |model| %>
+   <%= link_to model.attribute, model %>
+ <% end %>
+
+generates
+
+  <ul id="model_list">
+    <li id="1_model">
+      <a href="model/1"> model_attribute value</a>
+    </li>
+    <li id="2_model">
+      <a href="model/1"> model_attribute value</a>
+    </li>
+  </ul>
+
+
+Copyright (c) 2008 softprops, released under the MIT license
