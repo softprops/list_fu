@@ -47,7 +47,7 @@ index.html.erb
  
 generates
 
-<ul id="mode_list">
+<ul id="model_list">
   <li id="1_model">
     <%= render :partial =>"model", :object=> model %>
   </li>
